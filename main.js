@@ -2,6 +2,10 @@ $(document).ready(initializeApp)
 
 function initializeApp(){
     attachEventHandlers()
+    const Game = new App
+
+    Game.initGame()
+
 }
 
 function attachEventHandlers(){
@@ -29,16 +33,25 @@ class App {
     }
     initGame(){
         console.log('initializing game');
-        const gamePiece = $('<div class="game-piece"></div>');
-        const row = $('<div class="row"></div>');
-        row.append(gamePiece)
-        $('.game-board').append(row)
+        for(let i = 0; i<4; i++){
+            const row = $('<div>', {
+                'class': 'row'
+            });
+            let gamePiece=null;
+            for(let j = 0; j<4; j++){
+                 gamePiece = $('<div>',{
+                    'class': 'game-piece'
+                });
+                row.append(gamePiece)
+
+            }
+
+            $('.game-board').append(row)
+        }
+
     }
     restartGame(){
         console.log('restarting game');
     }
 
 }
-const Game = new App
-Game.initGame()
-
