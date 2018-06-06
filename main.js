@@ -10,7 +10,7 @@ function attachEventHandlers(){
         console.log('clicked')
     });
     $('.up').on('click', () => {
-        console.log('up')
+        Game.moveUp()
     });
     $('.down').on('click', () => {
         console.log('down')
@@ -72,9 +72,24 @@ class App {
             }else {
                 i--;
             };
-
-
         };
+    }
+    moveUp(){
+        for(let i=0; i<4; i++){
+            for(let j=0; j<4; j++){
+                if(this.array[i][j]){
+                    let num= this.array[i][j];
+                    for(let k = 0; k<4 && k<i && !isDone; k++){
+                        //go through each column until the original position
+                        if(!$(`#row${k} #col${j}`).text()){
+                            $(`#row${i} #col${j}`).text(null)
+                            $(`#row${k} #col${j}`).text(num)
+                            let isDone = true;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     restartGame(){
