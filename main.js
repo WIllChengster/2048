@@ -1,25 +1,25 @@
 $(document).ready(initializeApp)
 
 function initializeApp(){
-    Game.restartGame()
-    attachEventHandlers()
+    Game.restartGame();
+    attachEventHandlers();
 }
 
 function attachEventHandlers(){
     $('.game-piece').on('click', () => {
-        console.log('clicked')
+        console.log('clicked');
     });
     $('.up').on('click', () => {
-        Game.moveUp()
+        Game.moveUp();
     });
     $('.down').on('click', () => {
-        console.log('down')
+        console.log('down');
     });
     $('.left').on('click', () => {
-        console.log('left')
+        console.log('left');
     });
     $('.right').on('click',() => {
-        console.log('right')
+        Game.moveRight();
     });
 }
 
@@ -74,23 +74,63 @@ class App {
             };
         };
     }
+
     moveUp(){
-        for(let i=0; i<4; i++){
-            for(let j=0; j<4; j++){
+        for(let i = 0; i<4; i++){
+            //iterate down the rows
+            for(let j = 0; j<4; j++){
+                //iterate through cols
+                //then numbers up into the farthest empty position upward
                 if(this.array[i][j]){
-                    let num= this.array[i][j];
-                    for(let k = 0; k<4 && k<i && !isDone; k++){
-                        //go through each column until the original position
-                        if(!$(`#row${k} #col${j}`).text()){
-                            $(`#row${i} #col${j}`).text(null)
-                            $(`#row${k} #col${j}`).text(num)
-                            let isDone = true;
+                    let num = this.array[i][j];
+                    let didNumMove = false;
+                    for(let k = 0; k<4 && !didNumMove; k){
+                        if(this.array[i-1]===undefined){
+                            break;
+                        } else if(this.array[k][j]){
+                            k++;
+                        } else if(!this.array[k][j]){
+                            this.array[k][j] = num;
+                            this.array[i][j] = null;
+                            $(`#row${k} #col${j}`).text(num);
+                            $(`#row${i} #col${j}`).text(null);
+                            didNumMove = true;
+                            
                         }
                     }
                 }
             }
         }
     }
+
+    moveRight(){
+
+        for(let i = 0; i<4; i++){
+            //iterate down the rows
+            for(let j = 3; j>=0; j--){
+                //iterate through cols
+                //then numbers up into the farthest empty position upward
+                if(this.array[i][j]){
+                    let num = this.array[i][j];
+                    let didNumMove = false;
+                    for(let k = 3; k>=0 && !didNumMove; k){
+                        if(this.array[j+1]===undefined){
+                            break;
+                        } else if(this.array[i][k]){
+                            k--;
+                        } else if(!this.array[i][k]){
+                            this.array[i][k] = num;
+                            this.array[i][j] = null;
+                            $(`#row${i} #col${k}`).text(num);
+                            $(`#row${i} #col${j}`).text(null);
+                            didNumMove = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 
     restartGame(){
         this.newBoard();
