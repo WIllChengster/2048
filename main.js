@@ -100,8 +100,24 @@ class App {
                         if(this.array[i-1]===undefined){
                             break;
                         } else if(this.array[k][j]){
-                            k++;
-                        } else if(!this.array[k][j]){
+                            if(this.array[k][j] === this.array[i][j] && i!==k){
+                                if(i>k){
+                                    this.array[k][j] = this.array[k][j] * 2;
+                                    this.array[i][j] = null;
+                                    $(`#row${i} #col${j}`).text(this.array[i][j]);
+                                    $(`#row${k} #col${j}`).text(this.array[k][j]);
+                                } else {
+                                    this.array[i][j] = this.array[k][j] * 2;
+                                    this.array[k][j] = null;
+                                    $(`#row${i} #col${j}`).text(this.array[i][j]);
+                                    $(`#row${k} #col${j}`).text(this.array[k][j]);
+                                }
+
+                                didNumMove = true;
+                            } else{
+                                k++
+                            }
+                        } else if(!this.array[k][j] && k<i){
                             this.array[k][j] = num;
                             this.array[i][j] = null;
                             $(`#row${k} #col${j}`).text(num);
@@ -127,8 +143,19 @@ class App {
                     for(let k = 3; k>=0 && !didNumMove; k){
                         if(this.array[j+1]===undefined){
                             break;
-                        } else if(this.array[i][k]){
+                        } else if(this.array[i][k]) {
+                          if(this.array[i][k] === this.array[i][j] && j!==k){
+                            this.array[i][k] *= 2;
+                            this.array[i][j] = null;
+                            $(`#row${i} #col${k}`).text(this.array[i][k]);
+                            $(`#row${i} #col${j}`).text(this.array[i][j]);
+                            didNumMove = true;
+
+                          }
+                          else{
                             k--;
+                          }
+
                         } else if(!this.array[i][k]){
                             this.array[i][k] = num;
                             this.array[i][j] = null;
